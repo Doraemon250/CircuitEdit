@@ -5,7 +5,16 @@
 enum class GateType {
     AND,
     OR,
-    NOT
+    NOT,
+    BUFFER,
+    NAND,
+    NOR,
+    XOR,
+    XNOR,
+    ODD_PARITY,
+    EVEN_PARITY,
+    CONTROLLED_BUFFER,
+    CONTROLLED_INVERTOR
 };
 
 class Shape
@@ -42,8 +51,9 @@ public:
         startPos = pos;
     }
     GateType GetGateType() const { return type; }
+    virtual std::vector<wxPoint> GetIuputLocation(wxGraphicsContext* gc) const = 0;
+    virtual wxPoint GetOutputLocation(wxGraphicsContext* gc) const = 0;
 
-    // 不实现 drawSelf，由具体门类实现
 };
 
 // 具体门类
@@ -68,8 +78,68 @@ public:
     virtual void drawSelf(wxGraphicsContext* gc) const override;
 };
 
+class ComponentBuffer : public LogicGate
+{
+public:
+    ComponentBuffer(const wxPoint& pos) : LogicGate(pos, GateType::BUFFER) {}
+    virtual void drawSelf(wxGraphicsContext* gc) const override;
+};
 
+class ComponentNAnd : public LogicGate
+{
+public:
+    ComponentNAnd(const wxPoint& pos) : LogicGate(pos, GateType::NAND) {}
+    virtual void drawSelf(wxGraphicsContext* gc) const override;
+};
 
+class ComponentNOr : public LogicGate
+{
+public:
+    ComponentNOr(const wxPoint& pos) : LogicGate(pos, GateType::NOR) {}
+    virtual void drawSelf(wxGraphicsContext* gc) const override;
+};
+
+class ComponentXOr : public LogicGate
+{
+public:
+    ComponentXOr(const wxPoint& pos) : LogicGate(pos, GateType::XOR) {}
+    virtual void drawSelf(wxGraphicsContext* gc) const override;
+};
+
+class ComponentXNOr : public LogicGate
+{
+public:
+    ComponentXNOr(const wxPoint& pos) : LogicGate(pos, GateType::XNOR) {}
+    virtual void drawSelf(wxGraphicsContext* gc) const override;
+};
+
+class ComponentOddParity : public LogicGate
+{
+public:
+    ComponentOddParity(const wxPoint& pos) : LogicGate(pos, GateType::ODD_PARITY) {}
+    virtual void drawSelf(wxGraphicsContext* gc) const override;
+};
+
+class ComponentEvenParity : public LogicGate
+{
+public:
+    ComponentEvenParity(const wxPoint& pos) : LogicGate(pos, GateType::EVEN_PARITY) {}
+    virtual void drawSelf(wxGraphicsContext* gc) const override;
+};
+
+class ComponentControlledBuffer : public LogicGate
+{
+public:
+    ComponentControlledBuffer(const wxPoint& pos) : LogicGate(pos, GateType::CONTROLLED_BUFFER) {}
+    virtual void drawSelf(wxGraphicsContext* gc) const override;
+};
+
+class ComponentControlledInvertor : public LogicGate
+{
+public:
+    ComponentControlledInvertor(const wxPoint& pos) : LogicGate(pos, GateType::CONTROLLED_INVERTOR) {}
+    virtual void drawSelf(wxGraphicsContext* gc) const override;
+};
 
 class Line : public Shape
 {

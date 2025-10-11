@@ -89,7 +89,8 @@ void DrawBoard::OnLeftDown(wxMouseEvent& event) {
         isDrawing = true;
         currentStart = event.GetPosition();
     }
-
+    std::unique_ptr<Shape> componentOrPtr = std::make_unique<ComponentControlledInvertor>(mousePos);
+    shapes.push_back(std::move(componentOrPtr));
 }
 
 void DrawBoard::OnLeftUp(wxMouseEvent& event) {
